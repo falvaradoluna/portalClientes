@@ -1,0 +1,94 @@
+<div class="modal fade" id="payInvoceModal" tabindex="-1" role="dialog" aria-labelledby="payInvoceModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" ng-class="{ 'btn-success': invoce.diasCartera <=0 , 'btn-warning': invoce.diasCartera > 0 }">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h1 class="pull-right">{{invoce.importe |currency}}</h1>
+                <h2 class="modal-title" id="payInvoceModalLabel">Factura {{invoce.serie}}{{invoce.folio}}</h2>
+                <h3>Pagar antes de: {{invoce.fechaVencimiento | date:"dd/MM/yyyy" }} </h3>
+            </div>
+            <div class="modal-body">
+                <div ng-show="content">
+                    <form name="pendingInvoceModalForm" method="post">
+                        <!--span class="badge pull-right">{{invoce.estatus}}</span-->
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <p>
+                                    <b>Descripción</b>
+                                </p>
+                                <p>
+                                    {{invoce.descripcion}}
+                                </p>
+                            </div>
+                            <div class="col-xs-6">
+                                <p>
+                                    <b>Departamento</b>
+                                </p>
+                                <p>
+                                    {{invoce.departamento}}
+                                </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <p>
+                                    <b>Fecha de emisión</b>
+                                </p>
+                                <p>
+                                    {{invoce.fechadoc | date:"dd/MM/yyyy"}}
+                                </p>
+                            </div>
+                            <div class="col-xs-6">
+                                <p>
+                                    <b>Estatus</b>
+                                </p>
+                                <p>
+                                    {{invoce.estatus}} hace {{invoce.diasCartera}} días.
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <h2>Seleccione método de pago</h2>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="radio">
+                                    <input ng-model="payMethod" type="radio" id="radioBank" value="1" name="radioInline">
+                                    <label for="radioBank">Pago en bancos</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="radio">
+                                    <input ng-model="payMethod" type="radio" id="radioReference" value="2" name="radioInline">
+                                    <label for="radioReference">Línea de captura</label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div ng-show="payMethod">
+                            <hr>
+                            <h2 ng-show="payMethod == 1">Seleccioné banco para pagar</h2>
+                            <div class="cc-selector">
+                                <div ng-show="bank.disponible == 3 || payMethod == 1 && bank.disponible ==2 || payMethod == 2 && bank.disponible ==1 " ng-repeat="bank in banks">
+                                    <a ng-click="payInvoce(invoce.folio,bank.idBanco,invoce.idEmpresa,invoce.idEmpresa,invoce.idSucursal,invoce.idDepartamento,1,invoce.serie,invoce.folio,invoce.emp_idPersona,0,invoce.importe,1,invoce.emp_nombre,invoce.suc_nombre,invoce.departamento)" class="bank-cc {{bank.nombre | lowercase}}"></a>
+                                </div>
+                                <div ng-show="payMethod == 2">
+                                    <button class="btn btn-primary" ng-click="payInvoce(0,0,0,invoce.idEmpresa,invoce.idSucursal,invoce.idDepartamento,1,invoce.serie,invoce.folio,invoce.emp_idPersona,0,invoce.importe,1,invoce.emp_nombre,invoce.suc_nombre,invoce.departamento)">Generar Referencia</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div style="height:530px" id="pdfReferenceContent" ng-show="!content">
+                    <div ng-show="loadingFormatoFactura" class="sk-spinner sk-spinner-rotating-plane">
+                       
+                    </div>
+                    <!-- <div ng-show="payMethod == 2">
+                        {{referencia.REFERENCIA}}
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

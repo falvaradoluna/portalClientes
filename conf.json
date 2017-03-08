@@ -1,0 +1,13 @@
+{
+    "WSInvoce": "http://192.168.20.89:8095/Service1.asmx?WSDL",
+    "WSReference": "http://192.168.20.89:1430/api/referencia/referencia",
+    "WSReferenceDos": "http://192.168.20.89:1420/api/referencia/referencia",
+    "port": 4500,
+    "SQL_user": "sa",
+    "SQL_password": "S0p0rt3",
+    "SQL_server": "192.168.20.29",
+    "SQL_database": "clientes",
+    "SQL_connectionTimeout": 60000,
+    "secret": "Andrade",
+    "bancomer_secret": "HdCe2bdc1143f0a1e3D794d37e4F5e50671919387cAc96581e332d380a6033Bb3"
+}
